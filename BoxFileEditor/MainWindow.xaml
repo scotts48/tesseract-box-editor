@@ -1,0 +1,87 @@
+﻿<Window xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"  x:Class="BoxFileEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:BoxFileEditor"
+        Title="{Binding WindowTitle}" Height="600" Width="800" Loaded="Window_Loaded" UseLayoutRounding="True" TextOptions.TextFormattingMode="Display"  >
+    <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ToolBar Grid.Row="0" >
+                <Button x:Name="menuLoad" Margin="5,0,0,0" Click="menuLoad_Click" >
+                    <StackPanel>
+                        <Grid HorizontalAlignment="Center">
+                            <local:BitmapControl Source="Images/OpenHS.png"/>
+                        </Grid>
+                        <TextBlock Text="Load..."/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="menuSave" Click="menuSave_Click">
+                    <StackPanel>
+                        <Grid HorizontalAlignment="Center">
+                            <local:BitmapControl Source="Images/SaveHS.png"/>
+                        </Grid>
+                        <TextBlock Text="Save"/>
+                    </StackPanel>
+                </Button>
+                <Separator Margin="5,0" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Page" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <xctk:IntegerUpDown x:Name="udPage" Width="60" Value="{Binding SelPageIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Maximum="{Binding MaxPageIndex}" Minimum="0" />
+                </StackPanel>
+                <Separator Margin="5,0" />
+                <Button x:Name="menuMerge" Click="btnMerge_Click">
+                    <StackPanel>
+                        <Grid HorizontalAlignment="Center">
+                            <local:BitmapControl Source="Images/Link.png"/>
+                        </Grid>
+                        <TextBlock Text="Merge"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="menuDelete" Click="btnDelete_Click">
+                    <StackPanel>
+                        <Grid HorizontalAlignment="Center">
+                            <local:BitmapControl Source="Images/Delete.png"/>
+                        </Grid>
+                        <TextBlock Text="Delete"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="7" />
+                <ColumnDefinition Width="175"/>
+            </Grid.ColumnDefinitions>
+            <local:TessImageView Grid.Column="0" x:Name="boxView" Image="{Binding Image}" ItemsSource="{Binding Boxes}" SelectionChanged="boxView_SelectionChanged" BorderThickness="1" BorderBrush="sc# 0.1,0,0,0" DeleteSelected="boxView_DeleteSelected" CreateBox="boxView_CreateBox" MergeSelected="boxView_MergeSelected" />
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" HorizontalAlignment="Stretch" Margin="0" />
+            <ListBox Grid.Column="2" x:Name="boxList" ItemsSource="{Binding Boxes}" SelectionChanged="boxList_SelectionChanged" SelectionMode="Extended" BorderThickness="1" BorderBrush="sc# 0.1,0,0,0" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="37"/>
+                                <ColumnDefinition Width="37"/>
+                                <ColumnDefinition Width="27"/>
+                                <ColumnDefinition Width="27"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Value}" TextAlignment="Left" Margin="2,0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Left}" TextAlignment="Right" Margin="2,0"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Top}" TextAlignment="Right" Margin="2,0"/>
+                            <TextBlock Grid.Column="3" Text="{Binding Width}" TextAlignment="Right" Margin="2,0"/>
+                            <TextBlock Grid.Column="4" Text="{Binding Height}" TextAlignment="Right" Margin="2,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>
